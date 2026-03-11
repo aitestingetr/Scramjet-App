@@ -6,170 +6,94 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
     />
-    <title>Scramjet EVR</title>
+    <title>EVR Proxy</title>
 
     <link rel="shortcut icon" href="favicon.webp" />
 
-    <!-- Scramjet core + transports (unchanged functionality) -->
+    <!-- Scramjet core (proxy functionality stays the same) -->
     <script src="/scram/scramjet.all.js"></script>
     <script src="/baremux/index.js"></script>
 
     <!-- Fonts / styles -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Roboto:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="index.css" />
 
-    <!-- App scripts (unchanged behavior) -->
+    <!-- App scripts (unchanged proxy wiring) -->
     <script src="register-sw.js" defer></script>
     <script src="search.js" defer></script>
     <script src="index.js" defer></script>
   </head>
 
   <body>
-    <!-- Top bar -->
-    <header class="top-bar">
-      <div class="top-left">
-        <div class="brand-mark">
-          <span class="brand-dot"></span>
-          <span class="brand-text">SCRAMJET</span>
+    <div class="evr-root">
+      <!-- Fake browser chrome bar -->
+      <div class="evr-chrome">
+        <div class="chrome-left">
+          <button class="chrome-btn" aria-hidden="true"></button>
+          <button class="chrome-btn" aria-hidden="true"></button>
+          <button class="chrome-btn" aria-hidden="true"></button>
         </div>
-        <span class="top-subtitle">EVR Proxy Core</span>
-      </div>
-      <nav class="top-nav">
-        <a
-          href="https://schoolsofeasternnevada.github.io/index.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="top-link"
-        >
-          G.GUI Home
-        </a>
-        <a
-          href="https://schoolsofeasternnevada.github.io/resources.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="top-link"
-        >
-          G.GUI Resources
-        </a>
-        <a
-          href="https://github.com/aitestingetr/Scramjet-App"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="top-link accent"
-        >
-          Repo
-        </a>
-      </nav>
-    </header>
-
-    <!-- Sidebar -->
-    <aside class="side-nav">
-      <div class="side-group">
-        <a
-          href="https://schoolsofeasternnevada.github.io/index.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="side-item"
-        >
-          <span class="side-pill"></span>
-          <span class="side-label">G.GUI Home</span>
-        </a>
-        <a
-          href="https://schoolsofeasternnevada.github.io/resources.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="side-item"
-        >
-          <span class="side-pill"></span>
-          <span class="side-label">G.GUI Resources</span>
-        </a>
-        <a href="#proxy" class="side-item">
-          <span class="side-pill"></span>
-          <span class="side-label">Proxy</span>
-        </a>
+        <div class="chrome-omnibox">
+          <span class="chrome-lock"></span>
+          <span class="chrome-text">EVR Proxy • powered by Scramjet</span>
+        </div>
+        <div class="chrome-right">
+          <span class="chrome-dot"></span>
+        </div>
       </div>
 
-      <div class="side-footer">
-        <span class="side-mini">Scramjet • MW</span>
-      </div>
-    </aside>
-
-    <!-- Main content -->
-    <main class="main-shell" id="proxy">
-      <section class="panel hero">
-        <div class="hero-header">
-          <div class="hero-title-block">
-            <h1 class="hero-title">Scramjet | MW</h1>
-            <p class="hero-subtitle">
-              Interception‑based proxy core, wrapped in an EVR‑style shell.
-            </p>
+      <!-- New tab content -->
+      <main class="evr-main">
+        <section class="evr-center">
+          <div class="evr-time-row">
+            <div id="evr-clock" class="evr-clock">--:--</div>
+            <div class="evr-battery" aria-label="Session battery">
+              <div class="evr-battery-shell">
+                <div
+                  id="evr-battery-fill"
+                  class="evr-battery-fill battery-green"
+                ></div>
+              </div>
+              <div class="evr-battery-cap"></div>
+              <span id="evr-battery-text" class="evr-battery-text">100%</span>
+            </div>
           </div>
-          <div class="hero-chip">LIVE PROXY</div>
-        </div>
 
-        <p class="hero-description">
-          Scramjet is an experimental interception based web proxy designed to
-          evade internet censorship, bypass arbitrary web browser restrictions,
-          and push web proxy tech forward.
-        </p>
-
-        <!-- This form + IDs are what index.js uses; behavior is unchanged -->
-        <form id="sj-form" class="search-row">
-          <input
-            id="sj-search-engine"
-            value="https://www.google.com/search?q=%s"
-            type="hidden"
-          />
-          <div class="search-shell">
-            <div class="search-prefix">EVR</div>
+          <!-- EVR search / URL bar (wired to Scramjet) -->
+          <form id="sj-form" class="evr-search-card">
             <input
-              id="sj-address"
-              type="text"
-              placeholder="Type a URL (x.com) or a search (cat)"
-              autocomplete="off"
+              id="sj-search-engine"
+              value="https://www.google.com/search?q=%s"
+              type="hidden"
             />
-            <button type="submit" class="search-button">LAUNCH</button>
-          </div>
-          <p class="search-hint">
-            URLs auto‑fix (http/https). Anything else becomes a search.
+            <div class="evr-search-inner">
+              <span class="evr-search-icon"></span>
+              <input
+                id="sj-address"
+                type="text"
+                placeholder="Search or enter a site URL"
+                autocomplete="off"
+              />
+            </div>
+          </form>
+
+          <p class="evr-hint">
+            EVR will auto‑detect URLs vs searches • powered by Scramjet core.
           </p>
-        </form>
-      </section>
 
-      <section class="panel status">
-        <div class="status-header">
-          <h2 class="status-title">Status</h2>
-          <span class="status-badge">SCRAMJET CORE</span>
-        </div>
-        <p id="sj-error" class="status-error"></p>
-        <pre id="sj-error-code" class="status-code"></pre>
-      </section>
+          <div class="evr-status">
+            <p id="sj-error" class="status-error"></p>
+            <pre id="sj-error-code" class="status-code"></pre>
+          </div>
+        </section>
 
-      <footer class="footer">
-        <div class="footer-row">
-          <a
-            title="The Mercury Workshop GitHub organization"
-            href="https://github.com/MercuryWorkshop"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Mercury Workshop</a
-          >
-          <a
-            title="The example demo app for Scramjet"
-            href="https://github.com/MercuryWorkshop/Scramjet-App"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Scramjet Demo</a
-          >
-          <a title="License information" href="credits.html">Credits</a>
-        </div>
-        <div class="footer-row">
-          <span>Scramjet &copy; MW 2025</span>
-        </div>
-      </footer>
-    </main>
+        <footer class="evr-footer">
+          <span>EVR Proxy &mdash; Powered by Scramjet </span>
+        </footer>
+      </main>
+    </div>
   </body>
 </html>
